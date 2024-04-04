@@ -121,14 +121,7 @@ if idle:
     local_dir="/home/ec2-user/SageMaker/data"
     sess = sagemaker.Session()
     bucket= sess.default_bucket()
-    client = boto3.client('s3')
-    for root, dirs, files in os.walk(local_directory):
-        for filename in files:
-            local_path = os.path.join(root, filename)
-            relative_path = os.path.relpath(local_path, local_directory)
-            s3_path = os.path.join(destination, relative_path)
-            print("Uploading %s..." % s3_path)
-            client.upload_file(local_path, bucket, s3_path)
+    sess.upload_data(local_dir, bucket=None, key_prefix=get_notebook_name(), callback=None, extra_args=None)
     print('Closing idle notebook')
     client = boto3.client('sagemaker')
     client.stop_notebook_instance(
