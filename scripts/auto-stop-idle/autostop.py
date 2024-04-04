@@ -121,7 +121,7 @@ if idle:
     local_dir="/home/ec2-user/SageMaker/data"
     sess = sagemaker.Session()
     bucket= sess.default_bucket()
-    sess.upload_data(local_dir, bucket=None, key_prefix=get_notebook_name(), callback=None, extra_args=None)
+    sess.upload_data(local_dir, bucket=None, key_prefix=get_notebook_name(), callback=None, extra_args={"StorageClass":"INTELLIGENT_TIERING"})
     print('Closing idle notebook')
     client = boto3.client('sagemaker')
     client.stop_notebook_instance(
